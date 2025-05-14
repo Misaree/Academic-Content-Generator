@@ -76,17 +76,17 @@ python app.py
 ## Project Structure
 project/
 ├── backend/
-│ ├── app.py # Main Flask application
-│ ├── text_extraction.py # Document text extraction
-│ ├── text_summarisation.py # AI summarization
-│ ├── podcast.py # Audio generation
-│ └── presentation.py # PPT generation
+│   ├── app.py                # Main Flask application
+│   ├── text_extraction.py    # Document text extraction
+│   ├── text_summarisation.py # AI summarization
+│   ├── podcast.py            # Audio generation
+│   └── presentation.py       # PPT generation
 ├── frontend/
-│ ├── index.html # User interface
-│ └── styles.css # Styling
-├── uploads/ # Temporary file storage
-├── generated/ # Output file storage
-└── requirements.txt # Project dependencies
+│   ├── index.html            # User interface
+│   └── styles.css            # Styling
+├── uploads/                  # Temporary file storage
+├── generated/                # Output file storage
+└── requirements.txt          # Project dependencies
 
 
 
