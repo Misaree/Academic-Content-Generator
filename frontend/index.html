@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Content Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Academic Content Generator</h1>
+        
+        <div class="upload-section">
+            <h2>Upload Document</h2>
+            <form id="uploadForm">
+                <input type="file" id="documentInput" accept=".pdf,.docx,.txt" required>
+                <button type="submit">Upload & Process</button>
+            </form>
+        </div>
+
+        <div class="summary-section" style="display: none;">
+            <h2>Document Summary</h2>
+            <div id="summaryText"></div>
+        </div>
+
+        <div class="generation-section" style="display: none;">
+            <h2>Generate Content</h2>
+            
+            <div class="podcast-section">
+                <h3>Generate Podcast</h3>
+                <select id="voiceSelect">
+                    <option value="1">Voice 1</option>
+                    <option value="2">Voice 2</option>
+                    <option value="3">Voice 3</option>
+                    <option value="4">Voice 4</option>
+                </select>
+                <button onclick="generateContent('podcast')">Generate Podcast</button>
+                <div id="podcastDownload" style="display: none;">
+                    <a href="#" class="download-link">Download Podcast</a>
+                </div>
+            </div>
+
+            <div class="presentation-section">
+                <h3>Generate Presentation</h3>
+                <select id="presentationStyle">
+                    <option value="formal">Formal</option>
+                    <option value="informal">Informal</option>
+                </select>
+                <button onclick="generateContent('presentation')">Generate Presentation</button>
+                <div id="presentationDownload" style="display: none;">
+                    <a href="#" class="download-link">Download Presentation</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentFileName = '';
+        let currentSummary = '';
+
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('documentInput');
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            try {
+                const response = await fetch('http://localhost:5000/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    currentFileName = data.filename;
+                    currentSummary = data.summary;
+                    
+                    document.getElementById('summaryText').textContent = data.summary;
+                    document.querySelector('.summary-section').style.display = 'block';
+                    document.querySelector('.generation-section').style.display = 'block';
+                } else {
+                    alert(data.error || 'Upload failed');
+                }
+            } catch (error) {
+                alert('Error uploading file');
+                console.error(error);
+            }
+        });
+
+        async function generateContent(type) {
+            const data = {
+                type: type,
+                text: currentSummary,
+                filename: currentFileName
+            };
+
+            if (type === 'podcast') {
+                data.voice_id = document.getElementById('voiceSelect').value;
+            } else if (type === 'presentation') {
+                data.style = document.getElementById('presentationStyle').value;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    const downloadDiv = document.getElementById(`${type}Download`);
+                    const downloadLink = downloadDiv.querySelector('.download-link');
+                    downloadLink.href = `http://localhost:5000${result.download_url}`;
+                    downloadDiv.style.display = 'block';
+                } else {
+                    alert(result.error || 'Generation failed');
+                }
+            } catch (error) {
+                alert('Error generating content');
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+   
