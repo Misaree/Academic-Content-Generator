@@ -74,6 +74,7 @@ python app.py
    - Podcasts save as .mp3 files
 
 ## Project Structure
+```
 project/
 ├── backend/
 │ ├── app.py # Main Flask application
@@ -87,7 +88,7 @@ project/
 ├── uploads/ # Temporary file storage
 ├── generated/ # Output file storage
 └── requirements.txt # Project dependencies
-
+```
 ## Technical Details
 
 - **Frontend**: HTML5, CSS3
