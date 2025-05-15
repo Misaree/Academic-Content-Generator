@@ -2,6 +2,8 @@
 
 A web application that transforms academic documents into summaries, presentations, and podcasts. This tool helps users quickly digest academic content in multiple formats.
 
+## Find the video demo link here: [Watch Demo Video](https://drive.google.com/file/d/1D_qVQ_WdoKHCwdlkgeAzyn-qHXZNnoHA/view?usp=sharing)
+
 ## Features
 
 - **Document Processing**
@@ -73,7 +75,7 @@ python app.py
    - Presentations save as .pptx files
    - Podcasts save as .mp3 files
 
-##Find the video demo link here: [Watch Demo Video](https://drive.google.com/file/d/1D_qVQ_WdoKHCwdlkgeAzyn-qHXZNnoHA/view?usp=sharing)
+
 
 
 ## Project Structure
